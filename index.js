@@ -94,7 +94,7 @@ module.exports = function (seeds, options) {
 			return;
 		}
 		if (!definitions[dependency]) {
-			if (hasMatch(modal, options.filesWithResolvedDeps)) {
+			if (hasMatch(seed, options.filesWithResolvedDeps)) {
 				gutil.log("Cannot find dependency: " + chalk.yellow(dependency) + " but is in a file with resolved dependencies.");
 			} else {
 				throw new gutil.PluginError("gulp-angular-builder", "Cannot find dependency " + chalk.red(dependency) + " in file " + chalk.magenta(seed) + ". Is it a global dependency?");
