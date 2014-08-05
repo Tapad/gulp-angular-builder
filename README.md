@@ -2,26 +2,26 @@
 
 > Gulp plugin to filter and include only necessary AngularJS files.
 
----
+
 ## Wat?
 * Share common libraries and Angular directives, services, templates, etc. across multiple projects
 * Filter down to the minimal set of required files via the dependency tree
 
----
+
 ## Install
 Install with [npm](https://npmjs.org/package/gulp-angular-builder)
 
 ```
 npm install --save-dev gulp-angular-builder
 ```
----
+
 Best used together with:
 * [gulp-concat](https://www.npmjs.org/package/gulp-concat)
 * [gulp-filter](https://www.npmjs.org/package/gulp-filter)
 * [gulp-angular-templatecache](https://www.npmjs.org/package/gulp-angular-templatecache)
 * [gulp-clone](https://www.npmjs.org/package/gulp-clone)
 
----
+
 ## Usage
 ```
 var angularbuilder = require("gulp-angular-builder");
@@ -42,7 +42,7 @@ gulp.task("build-files", function () {
 * **seed** (Array | String): File or files to start building dependency tree from.
 * **options** (Object): Config object, detailed below.
 
----
+
 ## Options
 Dependency Tree Building:
 * **parseExclude** (Array<sup>1</sup> | String | RegExp): Files not parsed for dependencies (e.g. non-Angular library files).
@@ -65,7 +65,7 @@ Misc:
 
 <sup>1</sup> Array of Strings or RegExps. Files are selected by partial matches.
 
----
+
 ## Notes
 #### Enforced Conventions:
 * Must use the `angular.module` for defining items
@@ -81,11 +81,11 @@ Misc:
 * Anything that matches the pattern `"controller": "SomeCtrl"` will consider `SomeCtrl` to be a dependency. (Quotes can be single or double; object key does not require quotes.)
 * All strings found in the file ending in *.html* or *.json* will be considered a template of that file (unless ignored via the *ignoredTemplates* option).
 
----
+
 ## Limitations
 * Dynamically built template URLs will not be included (in both html partials and js files)
 * No support (yet?) for $inject property
 
----
+
 ## Example
 TODO
