@@ -6,7 +6,8 @@ var gutil = require("gulp-util"),
 	chalk = require("chalk"),
 	MetaData = require("./lib/MetaData"),
 	htmlParser = require("./lib/html-parser.js"),
-	jsParser = require("./lib/js-parser.js");
+	jsParser = require("./lib/js-parser.js"),
+	angularFilters = require("./consts/angular-filters.json");
 
 var prepareOptions = function (options) {
 	// Prepare the options input argument
@@ -103,6 +104,16 @@ module.exports = function (seeds, options) {
 		}
 		addRequiredFile(definitions[dependency].path);
 	};
+	var addRequiredFilter = function (filter, seed) {
+		if (!!~angularFilters.indexOf(filter)) {
+			return;
+		}
+		if (!definitions[filter]) {
+			gutil.log("Cannot find defined filter: " + chalk.yellow(filter) + " in file " + chalk.magenta(seed) + ".");
+			return;
+		}
+		addRequiredFile(definitions[filter].path);
+	};
 	var followTree = function (seed) {
 		if (!files[seed]) {
 			throw new gutil.PluginError("gulp-angular-builder", "Seed file cannot be found in stream: " + chalk.magenta(seed) + ".");
@@ -117,6 +128,19 @@ module.exports = function (seeds, options) {
 		// Javascript dependencies
 		(files[seed].dependencies || []).forEach(function (dependency) {
 			addRequiredDependency(dependency, seed);
+		});
+
+		// Filters
+		(files[seed].filters || []).forEach(function (filter) {
+			addRequiredFilter(filter, seed);
+		});
+
+		// Animations
+		(files[seed].animations || []).forEach(function (animation) {
+			if (!definitions[animation]) {
+				return;
+			}
+			addRequiredFile(definitions[animation].path);
 		});
 
 		// HTML tokens (look for directives, if exists)
@@ -167,6 +191,13 @@ module.exports = function (seeds, options) {
 
 			// Go through each seed file
 			seeds.forEach(addRequiredFile);
+
+			// Require core library files
+			Object.keys(files).forEach(function (file) {
+				if (files[file].config || files[file].run) {
+					addRequiredFile(file);
+				}
+			});
 
 			// Require other required files
 			Object.keys(files).forEach(function (file) {

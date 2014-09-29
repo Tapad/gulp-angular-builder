@@ -67,6 +67,9 @@ Misc:
 
 ---
 ## Notes
+#### Automatically Required Files
+TODO
+
 #### Enforced Conventions:
 * Must use the `angular.module` for defining items
     * `angular.module(moduleName).item(itemName, function (dep1, dep2, dep3) { ... })`

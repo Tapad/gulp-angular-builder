@@ -1,0 +1,11 @@
+[
+	"currency",
+	"date",
+	"filter",
+	"json",
+	"limitTo",
+	"lowercase",
+	"number",
+	"orderBy",
+	"uppercase"
+]
