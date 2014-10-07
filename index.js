@@ -34,7 +34,7 @@ var prepareOptions = function (options) {
 		}
 	});
 
-	options.optionalLibsInclude = options.optionalLibsInclude || "includes/*.js";
+	options.optionalLibsInclude = options.optionalLibsInclude || ("includes" + path.sep + "*.js");
 
 	return options;
 };
@@ -153,7 +153,7 @@ module.exports = function (seeds, options) {
 
 		// Check if optional libs
 		if (hasMatch(seed, options.optionalLibs)) {
-			glob.sync(path.dirname(seed) + "/" + options.optionalLibsInclude).forEach(addRequiredLibs);
+			glob.sync(path.dirname(seed) + path.sep + options.optionalLibsInclude).forEach(addRequiredLibs);
 		}
 	};
 
@@ -264,17 +264,20 @@ var parseFile = function (file) {
 
 var getTemplatePath = function (template) {
 	if (template[0] != ".") {
-		if (template[0] == "/") {
+		if (template[0] == path.sep) {
 			template = "." + template;
 		} else {
-			template = "./" + template;
+			template = "." + path.sep + template;
 		}
 	}
 	return path.resolve(template);
 };
 
-var hasMatch = function (string, checks) {
+var hasMatch = function (string, checks, notPath) {
 	var matched = false;
+	if (!notPath) {
+		string = path.normalize(string).replace(path.sep, "/");
+	}
 	(checks instanceof Array ? checks : [checks]).forEach(function (check) {
 		if (string.match(check)) {
 			matched = true;
