@@ -74,12 +74,14 @@ module.exports = function (seeds, options) {
 		}
 	};
 	var addRequiredFile = function (file) {
+		file = path.normalize(file);
 		if (!~requiredFiles.indexOf(file)) {
 			requiredFiles.push(file);
 			followTree(file);
 		}
 	};
 	var addRequiredLibs = function (file) {
+		file = path.normalize(file);
 		if (!~requiredFiles.indexOf(file)) {
 			requiredFiles.push(file);
 		}
@@ -234,6 +236,7 @@ module.exports = function (seeds, options) {
 
 			// Return all required files in the stream
 			requiredFiles.forEach(function (file) {
+				file = path.normalize(file);
 				if (!files[file] || !files[file].file) {
 					throw new gutil.PluginError("gulp-angular-builder", "Required file cannot be found: " + chalk.magenta(file) + ".");
 				}
