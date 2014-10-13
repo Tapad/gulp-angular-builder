@@ -276,7 +276,7 @@ var getTemplatePath = function (template) {
 var hasMatch = function (string, checks, notPath) {
 	var matched = false;
 	if (!notPath) {
-		string = path.normalize(string).replace(path.sep, "/");
+		string = path.normalize(string).replace(new RegExp("\\" + path.sep, "g"), "/");
 	}
 	(checks instanceof Array ? checks : [checks]).forEach(function (check) {
 		if (string.match(check)) {
