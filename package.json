@@ -1,6 +1,6 @@
 {
 	"name": "gulp-angular-builder",
-	"version": "0.2.5",
+	"version": "0.3.0-beta",
 	"description": "Gulp plugin to filter and include only necessary AngularJS files.",
 	"main": "index.js",
 	"repository": {
@@ -13,18 +13,23 @@
 		"filter",
 		"template"
 	],
-	"author": "Jesse Zhang",
+	"author": {
+		"name": "Jesse Zhang"
+	},
 	"license": "MIT",
 	"bugs": {
 		"url": "https://github.com/Tapad/gulp-angular-builder/issues"
 	},
 	"homepage": "https://github.com/Tapad/gulp-angular-builder",
 	"dependencies": {
-		"esprima": "^1.2.2",
-		"chalk": "^0.5.1",
-		"glob": "^4.0.5",
-		"through2": "^0.5.1",
-		"htmlparser2": "^3.7.3",
-		"gulp-util": "^3.0.0"
+		"esprima": "^2.0.0",
+		"esprima-walk": "^0.1.0",
+		"glob": "^4.4.1",
+		"gulp-util": "^3.0.4",
+		"htmlparser2": "^3.8.2",
+		"through2": "^0.6.3"
+	},
+	"devDependencies": {
+		"gulp-debug": "^2.0.1"
 	}
 }

@@ -68,8 +68,7 @@ Misc:
 ---
 ## Notes
 #### Automatically Required Files
-* All parsed files containing `angular.module(...).run(...)` and `angular.module(...).config(...)` will be required and treated like a *seed* file.
-* Parsed files that are depended on by a *seed* file will be required. This includes *services/factories/controllers/etc.*, *templates*, *filters*, and *animations*.
+TODO
 
 #### Enforced Conventions:
 * Must use the `angular.module` for defining items
@@ -97,7 +96,13 @@ Misc:
 ```
 module.exports = {
     seed: [
-        "./index.html.ejs"
+        "./index.html.ejs",
+        
+        "./shared/app/app.js",
+        "./shared/app/routes.js",
+        
+        "./local/app/app.js",
+        "./local/app/routes.js"
     ],
     options: {
         parseExclude: [
@@ -241,7 +246,6 @@ gulp.task("default", function () {
 ```
 
 ##### shared/app/app.js (local/app/app.js can be similar)
-This file is automatically included because of the `angular.module(...).run(...)`
 ```
 angular.module("myAngularApp").run(["SomeService", "SomeLibrary", function (SomeService, SomeLibrary) {
     // SomeService will be looked for and included in services.js
@@ -250,7 +254,6 @@ angular.module("myAngularApp").run(["SomeService", "SomeLibrary", function (Some
 ```
 
 ##### shared/app/routes.js (local/app/routes.js can be similar)
-This file is automatically included because of the `angular.module(...).config(...)`
 ```
 angular.module("myAngularApp").config(["$stateProvider", "$urlRouterProvider",
     function ($stateProvider, $urlRouterProvider) {
@@ -282,7 +285,6 @@ angular.module("myAngularApp").config(["$stateProvider", "$urlRouterProvider",
 ```
 
 ##### shared/libs-optional/myLib/lib.js (local/libs-optional/myLib/lib.js can be similar)
-This file is included because of the `SomeLibrary` dependency in `shared/app/app.js`.
 ```
 angular.module("myLib", []).service("SomeLibrary", function () {
     return window.someGlobalLibrary;
@@ -290,7 +292,10 @@ angular.module("myLib", []).service("SomeLibrary", function () {
 ```
 
 ##### shared/libs-optional/myLib/includes/nonAngularLib.js
-This file is included because `SomeLibrary` is required and this file is within the optional libs include folder.
 ```
-var someNonAngularLib = function () {};
+angular.module("myLib", []).service("SomeLibrary", function () {
+    // This will be included because of "shared/app/app.js"
+    // The module will be included as well!
+    return window.someGlobalLibrary;
+});
 ```
