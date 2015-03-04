@@ -1,7 +1,8 @@
 var through = require("through2"),
 	gutil = require("gulp-util"),
 	Graph = require("./lib/Graph"),
-	filters = require("./consts/angular-filters");
+	filters = require("./consts/angular-filters"),
+	PluginError = require("./lib/errors").PluginError;
 
 module.exports = function (seeds, options) {
 	options = parseOptions(options);
@@ -73,10 +74,34 @@ module.exports.watch = function (seeds, options) {
 };
 
 function parseOptions(options) {
-	// TODO: add defaults
+	if (!options.appModule) {
+		throw new PluginError("Missing options.appModule in configuration.");
+	}
+
+	options.parseExclude = parseOption(options.parseExclude);
+	options.requiredFiles = parseOption(options.requiredFiles);
+	options.requiredLibs = parseOption(options.requiredLibs);
+	options.filePriority = parseOption(options.filePriority);
+	options.optionalLibs = parseOption(options.optionalLibs);
+	options.optionalLibsInclude = parseOption(options.optionalLibsInclude);
+	options.globalDependencies = parseOption(options.globalDependencies);
+	options.globalModules = parseOption(options.globalModules);
+
+	options.verbose = options.verbose || false;
+	options.debug = options.debug || false;
 
 	filters.forEach(function (filter) {
 		options.globalDependencies.push("filter:" + filter);
 	});
 	return options;
+}
+
+function parseOption(option) {
+	if (option instanceof Array) {
+		return option;
+	}
+	if (option == null) {
+		return [];
+	}
+	return [option];
 }
