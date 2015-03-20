@@ -4,8 +4,8 @@ var through = require("through2"),
 	filters = require("./consts/angular-filters"),
 	PluginError = require("./lib/errors").PluginError;
 
-module.exports = function (seeds, options) {
-	options = parseOptions(options);
+module.exports = function (seeds, options, fullBuild) {
+	options = parseOptions(options, fullBuild);
 	var graph = new Graph(seeds, options);
 
 	return through.obj(function (file, enc, next) {
@@ -73,7 +73,7 @@ module.exports.watch = function (seeds, options) {
 	return out;
 };
 
-function parseOptions(options) {
+function parseOptions(options, fullBuild) {
 	if (!options.appModule) {
 		throw new PluginError("Missing options.appModule in configuration.");
 	}
@@ -93,6 +93,8 @@ function parseOptions(options) {
 	filters.forEach(function (filter) {
 		options.globalDependencies.push("filter:" + filter);
 	});
+
+	options.fullBuild = !!fullBuild;
 	return options;
 }
 
