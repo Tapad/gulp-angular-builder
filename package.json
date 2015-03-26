@@ -1,6 +1,6 @@
 {
 	"name": "gulp-angular-builder",
-	"version": "0.3.8",
+	"version": "0.3.9",
 	"description": "Gulp plugin to filter and include only necessary AngularJS files.",
 	"main": "index.js",
 	"repository": {
