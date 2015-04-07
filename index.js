@@ -30,8 +30,8 @@ module.exports = function (seeds, options, fullBuild) {
 };
 
 
-module.exports.watch = function (seeds, options) {
-	options = parseOptions(options);
+module.exports.watch = function (seeds, options, fullBuild) {
+	options = parseOptions(options, fullBuild);
 	var graph = new Graph(seeds, options);
 
 	out = {};
